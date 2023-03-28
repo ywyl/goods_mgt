@@ -1,4 +1,4 @@
-<template></template>
+<template>测试页面</template>
 
 <script setup lang="ts"></script>
 

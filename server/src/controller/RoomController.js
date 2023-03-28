@@ -10,7 +10,7 @@ class RoomController {
     ctx.body = {
       code: 0,
       message: '仓库列表获取成功',
-      // result: res
+      result: res
     };
   }
 

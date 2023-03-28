@@ -21,9 +21,10 @@ const Room = seq.define('mgt_room', {
   },
 }, {
   timestamps: false,
+  freezeTableName:true,
 });
 
 // 强制同步数据库
-// MgtRoom.sync({ force: true });
+// Room.sync({ force: true });
 
 module.exports = Room;
