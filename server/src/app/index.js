@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const cors = require('koa2-cors');
 const { koaBody } = require('koa-body');
 
 const errorHandler = require('./errorHandler');
@@ -7,6 +8,7 @@ const roomRouter = require('../router/room');
 
 const app = new Koa();
 
+app.use(cors());
 app.use(koaBody());
 app.use(roomRouter.routes());
 
