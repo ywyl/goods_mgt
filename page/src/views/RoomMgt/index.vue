@@ -5,7 +5,7 @@
         <ElButton type="primary" @click="openDialog"> 添加 </ElButton>
       </div>
       <div class="search">
-        <ElInput v-model="queryParams.roomName">
+        <ElInput v-model="queryParams.roomName" @keyup.enter="changeSearchValue">
           <template #append>
             <ElButton :icon="ElSearch" @click="changeSearchValue" />
           </template>
@@ -14,11 +14,11 @@
     </div>
 
     <ElTable :data="roomList" border stripe>
-      <ElTableColumn prop="room_name" label="仓库名称" min-width="15" />
+      <ElTableColumn prop="roomName" label="仓库名称" min-width="15" />
       <ElTableColumn prop="address" label="仓库地址" min-width="25" />
       <ElTableColumn label="操作" min-width="15">
         <template #default="{ row }">
-          <ElButton type="warning" link @click="editRoom(row.id)"> 编辑 </ElButton>
+          <ElButton type="warning" link @click="openDialog(row)"> 编辑 </ElButton>
           <ElButton type="primary" link @click="deleteRoom(row.id)">删除</ElButton>
         </template>
       </ElTableColumn>
@@ -31,25 +31,12 @@
         :page-sizes="[5, 10, 20, 50, 100]"
         :background="true"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="roomList.length"
+        :total="total"
       />
     </div>
   </ElCard>
 
-  <ElDialog v-model="dialogVisible" title="用户" destroy-on-close @close="closeDialog" width="30rem">
-    <ElForm :model="ruleForm" label-width="6rem">
-      <ElFormItem label="仓库名称：">
-        <ElInput v-model="ruleForm.roomName" />
-      </ElFormItem>
-      <ElFormItem label="仓库地址：">
-        <ElInput v-model="ruleForm.address" />
-      </ElFormItem>
-    </ElForm>
-    <div class="button">
-      <ElButton @click="closeDialog">取消</ElButton>
-      <ElButton type="primary" @click="addRoom">确定</ElButton>
-    </div>
-  </ElDialog>
+  <EditRoom :model-value="dialogVisible" :current-info="currentInfo" @edit="editRoom" @close="closeDialog"> </EditRoom>
 </template>
 
 <script setup lang="ts">
@@ -57,48 +44,72 @@ import { ref, reactive, watch, onMounted } from 'vue';
 import type { Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { Search as ElSearch } from '@element-plus/icons-vue';
+import { ElMessageBox } from 'element-plus';
 
+import EditRoom from './EditRoom.vue';
 import type { ListParams, RoomParams } from './store';
 import useStore from './store';
 
 const store = useStore();
 
-const { roomList } = storeToRefs(store);
+const { roomList, total } = storeToRefs(store);
 
 const queryParams: ListParams = reactive({
-  start: 0,
+  start: 1,
   limit: 10,
   roomName: '',
 });
 
-// watch(queryParams, async (newValue) => {
-//   const { results, total } = await store.getRoomList();
-// });
+watch([() => queryParams.start, () => queryParams.limit], () => {
+  store.getRoomList(queryParams);
+});
+
+const currentInfo = reactive<RoomParams>({
+  roomName: '',
+  address: '',
+});
 
 const dialogVisible: Ref<boolean> = ref(false);
-const openDialog = () => {
+const openDialog = (params?: RoomParams) => {
   dialogVisible.value = true;
+  currentInfo.id = params?.id || '';
+  currentInfo.roomName = params?.roomName || '';
+  currentInfo.address = params?.address || '';
 };
 const closeDialog = () => {
   dialogVisible.value = false;
 };
 
-const ruleForm: RoomParams = reactive({
-  roomName: '',
-  address: '',
-})
+const deleteRoom = async (id: string) => {
+  try {
+    await ElMessageBox.confirm(
+    '确定删除仓库吗？',
+    '警告',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+    await store.deleteRoom(id);
+    store.getRoomList({
+      ...queryParams,
+      start: 1,
+    });
+  
+  } catch {
+    () => {};
+  }
+};
+const changeSearchValue = () => {
+  store.getRoomList(queryParams);
+};
 
-const editRoom = (id: string) => {};
-const deleteRoom = (id: string) => {};
-const changeSearchValue = () => {};
-
-const addRoom = async () => {
-  await store.addRoom(ruleForm);
+const editRoom = () => {
   closeDialog();
-  store.getRoomList()
-}
+  store.getRoomList(queryParams);
+};
 
-onMounted(() => store.getRoomList());
+onMounted(() => store.getRoomList(queryParams));
 </script>
 
 <style lang="scss" scoped>
