@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import displayMsg from '../../library/displayMsg';
 
-export interface ListParams {
+export interface QueryRoomParmas {
   start: number;
   limit: number;
   roomName: string;
@@ -23,7 +23,7 @@ export default defineStore('RoomMgt', {
   },
 
   actions: {
-    async getRoomList(params: ListParams) {
+    async getRoomList(params: QueryRoomParmas) {
       const { data } = await axios.post('http://localhost:8080/room/getList', {
         ...params,
         start: (params.start - 1) * params.limit,
@@ -42,9 +42,8 @@ export default defineStore('RoomMgt', {
       displayMsg(data.code, data.message);
     },
 
-    async deleteRoom(id: string) {
-      const { data } = await axios.post('http://localhost:8080/room/delete', { id });
-      console.log(data);
+    async deleteRoom(account: string) {
+      const { data } = await axios.post('http://localhost:8080/room/delete', { account });
       displayMsg(data.code, data.message);
     },
   },

@@ -1,6 +1,6 @@
 const { getRoomList, createRoom, updateRoom, deleteRoom } = require('../service/RoomService');
 
-const { roomAddedError } = require('../const/errorType');
+const { roomAddedError, roomUpdatedError, roomDeletedError } = require('../const/roomErrorType');
 
 class RoomController {
   async getList(ctx, next) {

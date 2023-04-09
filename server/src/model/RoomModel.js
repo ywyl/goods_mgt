@@ -9,13 +9,13 @@ const Room = seq.define('mgt_room', {
     primaryKey: true,
   },
   room_name: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(20),
     allowNull: false,
     unique: true,
     comment: '仓库名称',
   },
   address: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(120),
     allowNull: true,
     comment: '地址',
   },

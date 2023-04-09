@@ -1,5 +1,5 @@
 const { getRoomInfoById, getRoomInfo } = require('../service/RoomService');
-const { roomFormatError, roomExisted, idNotExisted, roomAddedError } = require('../const/errorType');
+const { roomFormatError, roomExisted, idNotExisted, roomAddedError } = require('../const/roomErrorType');
 
 const roomValidator = async (ctx, next) => {
   const { roomName } = ctx.request.body;

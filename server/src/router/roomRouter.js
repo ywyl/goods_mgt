@@ -17,7 +17,4 @@ router.post('/update', roomValidator, checkIdExist, updateRoom);
 // 删除
 router.post('/delete', checkIdExist, deleteRoom);
 
-// 登录
-// router.get('/login', login);
-
 module.exports = router;

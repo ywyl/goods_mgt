@@ -47,14 +47,14 @@ import { Search as ElSearch } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
 
 import EditRoom from './EditRoom.vue';
-import type { ListParams, RoomParams } from './store';
+import type { QueryRoomParmas, RoomParams } from './store';
 import useStore from './store';
 
 const store = useStore();
 
 const { roomList, total } = storeToRefs(store);
 
-const queryParams: ListParams = reactive({
+const queryParams: QueryRoomParmas = reactive({
   start: 1,
   limit: 10,
   roomName: '',
@@ -82,22 +82,20 @@ const closeDialog = () => {
 
 const deleteRoom = async (id: string) => {
   try {
-    await ElMessageBox.confirm(
-    '确定删除仓库吗？',
-    '警告',
-    {
+    await ElMessageBox.confirm('确定删除仓库吗？', '警告', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',
-    })
+    });
     await store.deleteRoom(id);
     store.getRoomList({
       ...queryParams,
       start: 1,
     });
-  
   } catch {
-    () => {};
+    () => {
+      console.log(111);
+    };
   }
 };
 const changeSearchValue = () => {
