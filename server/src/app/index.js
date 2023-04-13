@@ -6,6 +6,7 @@ const errorHandler = require('./errorHandler');
 
 const roomRouter = require('../router/roomRouter');
 const userRouter = require('../router/userRouter');
+const goodsRouter = require('../router/goodsRouter');
 
 const app = new Koa();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(koaBody());
 app.use(roomRouter.routes());
 app.use(userRouter.routes());
+app.use(goodsRouter.routes());
 
 // 统一的错误处理
 app.on('error', errorHandler);

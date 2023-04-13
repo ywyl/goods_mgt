@@ -1,5 +1,5 @@
 <template>
-  <ElCard>
+  <ElCard shadow="never">
     <div class="header">
       <div class="operation">
         <ElButton type="primary" @click="openDialog"> 添加 </ElButton>
@@ -24,7 +24,7 @@
       <ElTableColumn label="操作" min-width="15">
         <template #default="{ row }">
           <ElButton type="warning" link @click="openDialog(row)"> 编辑 </ElButton>
-          <ElButton type="primary" link @click="deleteUser(row.account)">删除</ElButton>
+          <ElButton type="primary" link @click="deleteUser(row.account)"> 删除 </ElButton>
         </template>
       </ElTableColumn>
     </ElTable>

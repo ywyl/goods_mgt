@@ -40,6 +40,6 @@ const User = seq.define('mgt_user', {
 });
 
 // 强制同步数据库
-// Room.sync({ force: true });
+// User.sync({ force: true });
 
 module.exports = User;
