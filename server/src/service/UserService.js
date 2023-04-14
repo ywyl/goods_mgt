@@ -41,7 +41,6 @@ class UserService {
   }
 
   async deleteUser(account) {
-    console.log(account);
     const res = await User.destroy({
       where: {
         account,

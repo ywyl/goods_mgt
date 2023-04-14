@@ -1,6 +1,6 @@
 const { getGoodsList, createGoods, updateGoods, deleteGoods } = require('../service/GoodsService');
 
-const { goodsAddedError, goodsUpdatedError, goodsDeletedError } = require('../const/goodsErrorType');
+const { goodsAddedError, goodsUpdatedError, goodsDeletedError } = require('../constError/goodsErrorType');
 
 class GoodsController {
   async getList(ctx, next) {

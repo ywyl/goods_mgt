@@ -1,7 +1,7 @@
 module.exports = {
   userFormatError: {
     code: '10001',
-    message: '用户帐号为空',
+    message: '用户帐号或密码错误',
     result: '',
   },
   userExisted: {
@@ -9,7 +9,7 @@ module.exports = {
     message: '用户帐号已存在',
     result: '',
   },
-  idNotExisted: {
+  userNotExisted: {
     code: '10003',
     message: '用户帐号不存在',
     result: '',
@@ -27,6 +27,11 @@ module.exports = {
   userDeletedError: {
     code: '10006',
     message: '删除用户失败',
+    result: '',
+  },
+  userGetError: {
+    code: '10007',
+    message: '获取用户信息错误',
     result: '',
   },
 };

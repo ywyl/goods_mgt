@@ -1,8 +1,30 @@
-const { getUserList, createUser, updateUser, deleteUser } = require('../service/UserService');
+const jwt = require('jsonwebtoken');
 
-const { userAddedError, userUpdatedError, userDeletedError } = require('../const/userErrorType');
+const { getUserList, createUser, updateUser, deleteUser, getUserInfoByAccount } = require('../service/UserService');
+
+const { userAddedError, userUpdatedError, userDeletedError } = require('../constError/userErrorType');
+
+const { JWT_SECRET } = require('../config/config');
 
 class UserController {
+  async login(ctx, next) {
+    const { account } = ctx.request.body;
+
+    try {
+      const { password, ...res } = await getUserInfoByAccount(account);
+
+      ctx.body = {
+        code: 0,
+        message: '用户登录成功',
+        result: {
+          token: jwt.sign(res, JWT_SECRET, { expiresIn: '1d' }),
+        },
+      };
+    } catch (err) {
+      console.error('用户登录失败', err);
+    }
+  }
+
   async getList(ctx, next) {
     const res = await getUserList(ctx.request.body);
 
