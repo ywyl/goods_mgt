@@ -16,6 +16,7 @@
     <ElTable :data="roomList" border stripe>
       <ElTableColumn prop="roomName" label="仓库名称" min-width="15" />
       <ElTableColumn prop="address" label="仓库地址" min-width="25" />
+      <ElTableColumn prop="updateTime" label="更新时间" min-width="15" />
       <ElTableColumn label="操作" min-width="15">
         <template #default="{ row }">
           <ElButton type="warning" link @click="openDialog(row)"> 编辑 </ElButton>

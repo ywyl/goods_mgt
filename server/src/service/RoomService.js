@@ -4,11 +4,12 @@ const Room = require('../model/RoomModel');
 class RoomService {
   async getRoomList(params) {
     const list = await Room.findAll({
-      attributes: ['id', ['room_name', 'roomName'], 'address'],
+      attributes: ['id', 'roomName', 'address', 'updateTime'],
       offset: params.start,
       limit: params.limit,
+      order: [['updateTime', 'DESC']],
       where: {
-        room_name: {
+        roomName: {
           [Op.like]: `%${params.roomName}%`,
         },
       },
@@ -19,15 +20,16 @@ class RoomService {
 
   async createRoom(roomName, address) {
     const { dataValues } = await Room.create({
-      room_name: roomName,
+      roomName,
       address,
     });
     return dataValues;
   }
 
   async updateRoom(id, roomName, address) {
+    const updateTime = new Date().getTime();
     const res = await Room.update(
-      { room_name: roomName, address },
+      { roomName, address, updateTime },
       {
         where: {
           id,
@@ -50,10 +52,10 @@ class RoomService {
     const whereOpt = {};
 
     id && Object.assign(whereOpt, { id });
-    roomName && Object.assign(whereOpt, { room_name: roomName });
+    roomName && Object.assign(whereOpt, { roomName });
 
     const res = await Room.findOne({
-      attributes: ['id', ['room_name', 'roomName']],
+      attributes: ['id', 'roomName'],
       where: whereOpt,
     });
 
@@ -61,8 +63,9 @@ class RoomService {
   }
 
   async getRoomInfoById(id) {
+    console.log(id);
     const res = await Room.findOne({
-      attributes: ['id', ['room_name', 'roomName']],
+      attributes: ['id', 'roomName'],
       where: { id },
     });
 

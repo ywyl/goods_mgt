@@ -4,12 +4,13 @@ const User = require('../model/UserModel');
 class UserService {
   async getUserList(params) {
     const list = await User.findAll({
-      attributes: ['account', ['user_name', 'userName'], ['is_admin', 'isAdmin'], ['update_time', 'updateTime']],
+      attributes: ['account', 'userName', 'isAdmin', 'updateTime'],
       offset: params.start,
       limit: params.limit,
-      order: [['update_time', 'DESC']],
+      order: [['updateTime', 'DESC']],
+      order: [['updateTime', 'DESC']],
       where: {
-        user_name: {
+        userName: {
           [Op.like]: `%${params.userName}%`,
         },
       },
@@ -19,18 +20,20 @@ class UserService {
   }
 
   async createUser(account, userName, password, isAdmin) {
+    const updateTime = new Date().getTime();
     const { dataValues } = await User.create({
       account,
-      user_name: userName,
+      userName,
       password,
-      is_admin: isAdmin,
+      isAdmin,
+      updateTime,
     });
     return dataValues;
   }
 
   async updateUser(account, userName, password, isAdmin) {
     const res = await User.update(
-      { user_name: userName, password, is_admin: isAdmin },
+      { userName, password, isAdmin },
       {
         where: {
           account,
@@ -51,7 +54,7 @@ class UserService {
 
   async getUserInfoByAccount(account) {
     const res = await User.findOne({
-      attributes: ['account', ['user_name', 'userName'], 'password'],
+      attributes: ['account', 'userName', 'password'],
       where: { account },
     });
 

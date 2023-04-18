@@ -24,7 +24,7 @@ class RoomController {
         message: '仓库添加成功',
         result: {
           id: res.id,
-          roomName: res.room_name,
+          roomName: res.roomName,
           address: res.address,
         },
       };

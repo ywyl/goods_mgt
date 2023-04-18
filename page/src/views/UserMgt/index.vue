@@ -21,6 +21,7 @@
           {{ row.isAdmin ? '是' : '否' }}
         </template>
       </ElTableColumn>
+      <ElTableColumn prop="updateTime" label="更新时间" min-width="15" />
       <ElTableColumn label="操作" min-width="15">
         <template #default="{ row }">
           <ElButton type="warning" link @click="openDialog(row)"> 编辑 </ElButton>

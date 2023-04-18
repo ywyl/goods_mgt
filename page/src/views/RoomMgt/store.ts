@@ -42,8 +42,8 @@ export default defineStore('RoomMgt', {
       displayMsg(data.code, data.message);
     },
 
-    async deleteRoom(account: string) {
-      const { data } = await axios.post('http://localhost:8080/room/delete', { account });
+    async deleteRoom(id: string) {
+      const { data } = await axios.post('http://localhost:8080/room/delete', { id });
       displayMsg(data.code, data.message);
     },
   },

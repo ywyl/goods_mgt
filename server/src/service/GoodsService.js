@@ -19,10 +19,12 @@ class GoodsService {
   }
 
   async createGoods(goodsName, description, type) {
+    const updateTime = new Date().getTime();
     const { dataValues } = await Goods.create({
       goodsName,
       description,
       type,
+      updateTime,
     });
     return dataValues;
   }
