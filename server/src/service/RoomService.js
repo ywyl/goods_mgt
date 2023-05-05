@@ -3,7 +3,7 @@ const Room = require('../model/RoomModel');
 
 class RoomService {
   async getRoomList(params) {
-    const list = await Room.findAll({
+    const { rows, count } = await Room.findAndCountAll({
       attributes: ['id', 'roomName', 'address', 'updateTime'],
       offset: params.start,
       limit: params.limit,
@@ -14,14 +14,17 @@ class RoomService {
         },
       },
     });
-    const total = await Room.count();
-    return { list, total };
+    return { list: rows, total: count };
   }
 
   async createRoom(roomName, address) {
+    const createTime = new Date().getTime();
+    const updateTime = new Date().getTime();
     const { dataValues } = await Room.create({
       roomName,
       address,
+      createTime,
+      updateTime,
     });
     return dataValues;
   }

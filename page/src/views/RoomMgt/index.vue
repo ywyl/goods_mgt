@@ -66,6 +66,7 @@ watch([() => queryParams.start, () => queryParams.limit], () => {
 });
 
 const currentInfo = reactive<RoomParams>({
+  id: '',
   roomName: '',
   address: '',
 });

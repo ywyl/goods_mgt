@@ -1,7 +1,7 @@
 <template>
   <ElDialog :model-value="modelValue" title="物资" destroy-on-close @close="closeDialog" width="30rem">
     <ElForm ref="formRef" :model="ruleForm" :rules="rules" label-width="6rem">
-      <ElFormItem label="仓库名称：" prop="goodsName">
+      <ElFormItem label="物资名称：" prop="goodsName">
         <ElInput v-model="ruleForm.goodsName" />
       </ElFormItem>
       <ElFormItem label="类型：" prop="type">

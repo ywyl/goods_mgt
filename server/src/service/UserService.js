@@ -3,7 +3,7 @@ const User = require('../model/UserModel');
 
 class UserService {
   async getUserList(params) {
-    const list = await User.findAll({
+    const { rows, count } = await User.findAndCountAll({
       attributes: ['account', 'userName', 'isAdmin', 'updateTime'],
       offset: params.start,
       limit: params.limit,
@@ -15,25 +15,27 @@ class UserService {
         },
       },
     });
-    const total = await User.count();
-    return { list, total };
+    return { list: rows, total: count };
   }
 
   async createUser(account, userName, password, isAdmin) {
+    const createTime = new Date().getTime();
     const updateTime = new Date().getTime();
     const { dataValues } = await User.create({
       account,
       userName,
       password,
       isAdmin,
+      createTime,
       updateTime,
     });
     return dataValues;
   }
 
   async updateUser(account, userName, password, isAdmin) {
+    const updateTime = new Date().getTime();
     const res = await User.update(
-      { userName, password, isAdmin },
+      { userName, password, isAdmin, updateTime },
       {
         where: {
           account,

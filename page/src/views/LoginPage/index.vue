@@ -21,7 +21,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const login = () => {
-  router.push('/dataMgt/UserMgt');
+  router.push('/Main/dataMgt/UserMgt');
 };
 </script>
 

@@ -91,7 +91,7 @@ const closeDialog = () => {
 
 const deleteGoods = async (id: string) => {
   try {
-    await ElMessageBox.confirm('确定删除仓库吗？', '警告', {
+    await ElMessageBox.confirm('确定删除物资吗？', '警告', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',

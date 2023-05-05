@@ -3,7 +3,7 @@ const Goods = require('../model/GoodsModel');
 
 class GoodsService {
   async getGoodsList(params) {
-    const list = await Goods.findAll({
+    const { rows, count } = await Goods.findAndCountAll({
       attributes: ['id', 'goodsName', 'description', 'type', 'updateTime'],
       offset: params.start,
       limit: params.limit,
@@ -14,24 +14,26 @@ class GoodsService {
         },
       },
     });
-    const total = await Goods.count();
-    return { list, total };
+    return { list: rows, total: count };
   }
 
   async createGoods(goodsName, description, type) {
+    const createTime = new Date().getTime();
     const updateTime = new Date().getTime();
     const { dataValues } = await Goods.create({
       goodsName,
       description,
       type,
+      createTime,
       updateTime,
     });
     return dataValues;
   }
 
   async updateGoods(id, goodsName, description, type) {
+    const updateTime = new Date().getTime();
     const res = await Goods.update(
-      { goodsName, description, type },
+      { goodsName, description, type, updateTime },
       {
         where: {
           id,

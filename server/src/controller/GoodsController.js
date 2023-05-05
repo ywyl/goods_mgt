@@ -15,7 +15,6 @@ class GoodsController {
 
   async addGoods(ctx, next) {
     const { goodsName, description, type } = ctx.request.body;
-    console.log(goodsName, description, type)
 
     try {
       const res = await createGoods(goodsName, description, type);

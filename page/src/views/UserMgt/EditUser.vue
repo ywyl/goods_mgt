@@ -86,7 +86,7 @@ watch(
 );
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .button {
   display: flex;
   justify-content: flex-end;

@@ -2,10 +2,11 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 
 import Login from '../views/LoginPage/index.vue';
-import DataMgt from '../views/DataMgt.vue';
+import Main from '../views/MainPanel.vue';
 import UserMgt from '../views/UserMgt/index.vue';
 import RoomMgt from '../views/RoomMgt/index.vue';
 import GoodsMgt from '../views/GoodsMgt/index.vue';
+import GoodsView from '../views/GoodsView/index.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -17,22 +18,36 @@ const routes: RouteRecordRaw[] = [
     component: Login,
   },
   {
-    path: '/DataMgt',
-    component: DataMgt,
+    path: '/Main',
+    component: Main,
     children: [
       {
-        path: 'UserMgt',
-        component: UserMgt,
+        path: 'DataMgt',
+        children: [
+          {
+            path: 'UserMgt',
+            component: UserMgt,
+          },
+          {
+            path: 'RoomMgt',
+            component: RoomMgt,
+          },
+          {
+            path: 'GoodsMgt',
+            component: GoodsMgt,
+          },
+        ],
       },
       {
-        path: 'RoomMgt',
-        component: RoomMgt,
+        path: 'CountsMgt',
+        children: [
+          {
+            path: 'GoodsView',
+            component: GoodsView,
+          },
+        ],
       },
-      {
-        path: 'GoodsMgt',
-        component: GoodsMgt,
-      },
-    ],
+    ]
   },
 ];
 
