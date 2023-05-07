@@ -13,8 +13,11 @@ export interface QueryCountsParmas {
 }
 
 export interface CountsParams {
-  roomId: string;
-  goodsId: string;
+  roomId?: string;
+  goodsId?: string;
+  operation?: number;
+  target?: string;
+  amount?: number;
   counts?: number;
 }
 
@@ -67,7 +70,12 @@ export default defineStore('GoodsCountsMgt', {
     },
 
     async addCounts(params: CountsParams) {
-      const { data } = await axios.post('http://localhost:8080/counts/add', params);
+      const { data } = await axios.post('http://localhost:8080/counts/add', {
+        ...params,
+        operation: 0,
+        target: params.roomId,
+        amount: 0,
+      });
       displayMsg(data.code, data.message);
     },
 
@@ -76,10 +84,10 @@ export default defineStore('GoodsCountsMgt', {
       displayMsg(data.code, data.message);
     },
 
-    async deleteCounts(params: CountsParams) {
+    async deleteCounts({ roomId, goodsId }: CountsParams) {
       const { data } = await axios.post('http://localhost:8080/counts/delete', {
-        roomId: params.roomId,
-        goodsId: params.goodsId,
+        roomId,
+        goodsId,
       });
       displayMsg(data.code, data.message);
     },

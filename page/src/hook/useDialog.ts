@@ -1,5 +1,5 @@
 export default () => {
-  let visiable: boolean = false;
+  const visiable = false;
 
   function openDialog(visiable: boolean) {
     visiable = true;
@@ -13,5 +13,5 @@ export default () => {
     visiable,
     openDialog,
     closeDialog,
-  }
-}
+  };
+};

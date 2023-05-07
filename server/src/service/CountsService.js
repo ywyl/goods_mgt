@@ -39,12 +39,11 @@ class CountsService {
   async updateCounts(roomId, goodsId, counts) {
     const updateTime = new Date().getTime();
     const res = await Counts.update(
-      { counts },
+      { counts, updateTime },
       {
         where: {
           roomId,
           goodsId,
-          updateTime,
         },
       }
     );

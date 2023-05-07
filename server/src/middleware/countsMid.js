@@ -1,5 +1,5 @@
 const { getCountsInfoById } = require('../service/CountsService');
-const { countsFormatError, countsExisted, countsNotExisted, countsGetError } = require('../constError/roomErrorType');
+const { countsFormatError, countsExisted, countsNotExisted, countsGetError } = require('../constError/countsErrorType');
 
 const countsValidator = async (ctx, next) => {
   const { roomId, goodsId } = ctx.request.body;

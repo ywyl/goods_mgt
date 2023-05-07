@@ -26,7 +26,7 @@
             <ElMenuItem index="/Main/CountsMgt/GoodsView">
               <span>仓库物资管理</span>
             </ElMenuItem>
-            <ElMenuItem index="3">
+            <ElMenuItem index="/Main/CountsMgt/GoodsView">
               <span>公共物资管理</span>
             </ElMenuItem>
           </ElMenuItemGroup>

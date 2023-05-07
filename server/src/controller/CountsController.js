@@ -1,4 +1,6 @@
 const { getCountsList, createCounts, updateCounts, deleteCounts } = require('../service/CountsService');
+const { updateCountsRecords } = require('./RecordsController');
+const { updateRecords } = require('../service/RecordsService');
 
 const { countsAddedError, countsUpdatedError, countsDeletedError } = require('../constError/countsErrorType');
 
@@ -9,16 +11,16 @@ class CountsController {
     ctx.body = {
       code: 0,
       message: '物资数量列表获取成功',
-      result: res
+      result: res,
     };
   }
 
   async addCounts(ctx, next) {
-    const { roomId, goodsId, counts } = ctx.request.body;
-    console.log(roomId, goodsId, counts);
+    const { roomId, goodsId, operation, target, amount, counts } = ctx.request.body;
 
     try {
       const res = await createCounts(roomId, goodsId, counts);
+      updateCountsRecords(roomId, goodsId, operation, target, amount);
 
       ctx.body = {
         code: 0,
@@ -36,10 +38,11 @@ class CountsController {
   }
 
   async updateCounts(ctx, next) {
-    const { roomId, goodsId, counts } = ctx.request.body;
+    const { roomId, goodsId, operation, target, amount, counts } = ctx.request.body;
 
     try {
       const res = await updateCounts(roomId, goodsId, counts);
+      updateCountsRecords(roomId, goodsId, operation, target, amount);
 
       ctx.body = {
         code: 0,
