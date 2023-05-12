@@ -1,6 +1,17 @@
-const { updateRecords } = require('../service/RecordsService');
+const { queryRecords, updateRecords } = require('../service/RecordsService');
 
 class RecordsController {
+  async queryCountsRecords(ctx, next) {
+    const { roomId, goodsId } = ctx.request.body;
+    const res = await queryRecords(roomId, goodsId);
+
+    ctx.body = {
+      code: 0,
+      message: '记录查询成功',
+      result: res,
+    };
+  }
+
   async updateCountsRecords(roomId, goodsId, operation, target, amount) {
     await updateRecords(roomId, goodsId, operation, target, amount);
 

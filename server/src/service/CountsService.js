@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Counts = require('../model/CountsModel');
 const Goods = require('../model/GoodsModel');
 const Room = require('../model/RoomModel');
@@ -9,6 +10,14 @@ class CountsService {
       offset: params.start,
       limit: params.limit,
       order: [['updateTime', 'DESC']],
+      where: {
+        roomId: {
+          [Op.like]: `%${params.roomId}%`,
+        },
+        goodsId: {
+          [Op.like]: `%${params.goodsId}%`,
+        },
+      },
       include: [
         {
           attributes: ['goodsName'],

@@ -3,6 +3,17 @@ const Records = require('../model/RecordsModel');
 const RECORDS_LIMIT = 10;
 
 class RecordsService {
+  async queryRecords(roomId, goodsId) {
+    const res = await Records.findAll({
+      where: {
+        roomId,
+        goodsId,
+      },
+      order: [['recordTime', 'DESC']],
+    });
+    return res;
+  }
+
   async updateRecords(roomId, goodsId, operation, target, amount) {
     // 首先查找记录条数
     const { rows, counts } = await Records.findAndCountAll({

@@ -7,13 +7,13 @@
       <div class="search">
         <div class="search-item">
           <span>仓库名称：</span>
-          <ElSelect v-model="queryParams.roomName" placeholder="Select">
+          <ElSelect v-model="queryParams.roomId" placeholder="Select">
             <ElOption v-for="item in roomOptions" :key="item.value" :label="item.label" :value="item.value" />
           </ElSelect>
         </div>
         <div class="search-item">
           <span>物资名称：</span>
-          <ElSelect v-model="queryParams.goodsName" placeholder="Select">
+          <ElSelect v-model="queryParams.goodsId" placeholder="Select">
             <ElOption v-for="item in goodsOptions" :key="item.value" :label="item.label" :value="item.value" />
           </ElSelect>
         </div>
@@ -27,6 +27,7 @@
       <ElTableColumn label="操作" min-width="15">
         <template #default="{ row }">
           <ElButton type="warning" link @click="openEditDialog(row)"> 编辑 </ElButton>
+          <ElButton type="warning" link @click="openRecordsDialog(row)"> 查看 </ElButton>
           <ElButton type="primary" link @click="deleteCounts(row)"> 删除 </ElButton>
         </template>
       </ElTableColumn>
@@ -48,16 +49,19 @@
 
   <EditCounts :model-value="editDialogVisible" :current-info="currentInfo" @edit="editCounts" @close="closeDialog">
   </EditCounts>
+
+  <RecordsView :model-value="recordsDialogVisible" @close="closeDialog"></RecordsView>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, watch, onMounted } from 'vue';
 import type { Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { ElMessageBox } from 'element-plus';
 
 import AddItem from './AddItem.vue';
 import EditCounts from './EditCounts.vue';
+import RecordsView from './RecordsView.vue';
 import type { QueryCountsParmas, CountsParams } from './store';
 import useStore from './store';
 
@@ -68,9 +72,16 @@ const { goodsCounsList, total, roomOptions, goodsOptions } = storeToRefs(store);
 const queryParams: QueryCountsParmas = reactive({
   start: 1,
   limit: 10,
-  roomName: '',
-  goodsName: '',
+  roomId: '',
+  goodsId: '',
 });
+
+watch(
+  [() => queryParams.start, () => queryParams.limit, () => queryParams.roomId, () => queryParams.goodsId],
+  () => {
+    store.getGoodsCountsList(queryParams);
+  }
+);
 
 const currentInfo = reactive<CountsParams>({
   roomId: '',
@@ -90,9 +101,17 @@ const openEditDialog = (params: CountsParams) => {
   currentInfo.goodsId = params.goodsId;
   currentInfo.counts = params.counts;
 };
+
+const recordsDialogVisible: Ref<boolean> = ref(false);
+const openRecordsDialog = (params: CountsParams) => {
+  recordsDialogVisible.value = true;
+  store.queryRecords(params);
+};
+
 const closeDialog = () => {
   addDialogVisible.value = false;
   editDialogVisible.value = false;
+  recordsDialogVisible.value = false;
 };
 
 const editCounts = () => {

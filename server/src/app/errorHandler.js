@@ -10,6 +10,6 @@ module.exports = (err, ctx) => {
     default:
       status = 500;
   }
-  ctx.status = status;
+  ctx.status = 200;
   ctx.body = err;
 };

@@ -8,8 +8,8 @@ import type { Options } from '../interface';
 export interface QueryCountsParmas {
   start: number;
   limit: number;
-  roomName: string;
-  goodsName: string;
+  roomId: string;
+  goodsId: string;
 }
 
 export interface CountsParams {
@@ -28,6 +28,7 @@ export default defineStore('GoodsCountsMgt', {
       total: 0,
       roomOptions: new Array<Options>(),
       goodsOptions: new Array<Options>(),
+      records: [],
     };
   },
 
@@ -91,5 +92,13 @@ export default defineStore('GoodsCountsMgt', {
       });
       displayMsg(data.code, data.message);
     },
+
+    async queryRecords({ roomId, goodsId }: CountsParams) {
+      const { data } = await axios.post('http://localhost:8080/records/getRecords', {
+        roomId,
+        goodsId,
+      });
+      this.records = data.result.list;
+    }
   },
 });
