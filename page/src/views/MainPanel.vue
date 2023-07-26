@@ -2,7 +2,7 @@
   <ElContainer>
     <ElAside class="nav">
       <ElMenu default-active="/Main/DataMgt/UserMgt" router class="menu">
-        <ElSubMenu>
+        <ElSubMenu index="DataMgt">
           <template #title>
             <span>信息管理</span>
           </template>
@@ -18,16 +18,13 @@
             </ElMenuItem>
           </ElMenuItemGroup>
         </ElSubMenu>
-        <ElSubMenu>
+        <ElSubMenu index="CountsMgt">
           <template #title>
             <span>物资管理</span>
           </template>
           <ElMenuItemGroup>
             <ElMenuItem index="/Main/CountsMgt/GoodsView">
               <span>仓库物资管理</span>
-            </ElMenuItem>
-            <ElMenuItem index="/Main/CountsMgt/GoodsView">
-              <span>公共物资管理</span>
             </ElMenuItem>
           </ElMenuItemGroup>
         </ElSubMenu>

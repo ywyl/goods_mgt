@@ -47,11 +47,11 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-// interface EditCounts {
-//   operation: number;
-//   target: string;
-//   amount: number;
-// }
+interface EditCounts {
+  operation: number;
+  target: string;
+  amount: number;
+}
 
 const formRef = ref<FormInstance>();
 
@@ -68,7 +68,7 @@ const OPERATION_OPTIONS: Array<Options> = [
 
 const TARGET_OPTIONS: Ref<Array<Options>> = ref([]);
 
-const ruleForm = reactive<CountsParams>({
+const ruleForm = reactive<EditCounts>({
   operation: 0,
   target: '',
   amount: 0,

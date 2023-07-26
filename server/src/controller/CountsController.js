@@ -1,8 +1,18 @@
 const { getCountsList, createCounts, updateCounts, deleteCounts } = require('../service/CountsService');
-const { updateCountsRecords } = require('./RecordsController');
 const { updateRecords } = require('../service/RecordsService');
 
 const { countsAddedError, countsUpdatedError, countsDeletedError } = require('../constError/countsErrorType');
+
+const updateCountsRecords = async (roomId, goodsId, operation, target, amount) => {
+    // 更新本仓库的记录
+    await updateRecords(roomId, goodsId, operation, target, amount);
+
+    // 如果不是添加和消耗，还需要添加相关仓库的记录
+    if (target !== roomId) {
+      const operationEffect = operation ? 0 : 1;
+      await updateRecords(target, goodsId, operationEffect, roomId, amount);
+    }
+}
 
 class CountsController {
   async getList(ctx, next) {

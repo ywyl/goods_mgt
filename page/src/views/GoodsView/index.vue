@@ -50,7 +50,7 @@
   <EditCounts :model-value="editDialogVisible" :current-info="currentInfo" @edit="editCounts" @close="closeDialog">
   </EditCounts>
 
-  <RecordsView :model-value="recordsDialogVisible" @close="closeDialog"></RecordsView>
+  <RecordsView :model-value="recordsDialogVisible" :current-info="currentInfo" @close="closeDialog"></RecordsView>
 </template>
 
 <script setup lang="ts">
@@ -105,7 +105,8 @@ const openEditDialog = (params: CountsParams) => {
 const recordsDialogVisible: Ref<boolean> = ref(false);
 const openRecordsDialog = (params: CountsParams) => {
   recordsDialogVisible.value = true;
-  store.queryRecords(params);
+  currentInfo.roomId = params.roomId;
+  currentInfo.goodsId = params.goodsId;
 };
 
 const closeDialog = () => {

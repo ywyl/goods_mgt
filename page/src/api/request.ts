@@ -12,13 +12,13 @@ class Request {
   config: AxiosRequestConfig;
   instance: AxiosInstance;
 
-  constructor(options: AxiosRequestConfig ) {
+  constructor(options: AxiosRequestConfig) {
     this.config = options;
     this.instance = axios.create(options);
   }
 
   // 类型参数的作用，T决定AxiosResponse实例中data的类型
-  request<T = any>(config: AxiosRequestConfig ): Promise<T> {
+  request<T = any>(config: AxiosRequestConfig): Promise<T> {
     return new Promise((resolve, reject) => {
       this.instance
         .request<any, HData<T>>(config)
@@ -31,21 +31,21 @@ class Request {
     });
   }
 
-  get<T = any>(config: AxiosRequestConfig ): Promise<T> {
+  get<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'GET' });
   }
 
-  post<T = any>(config: AxiosRequestConfig ): Promise<T> {
+  post<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'POST' });
   }
 
-  delete<T = any>(config: AxiosRequestConfig ): Promise<T> {
+  delete<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'DELETE' });
   }
 
-  patch<T = any>(config: AxiosRequestConfig ): Promise<T> {
+  patch<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'PATCH' });
   }
 }
 
-export default Request
+export default Request;

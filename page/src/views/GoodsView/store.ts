@@ -98,7 +98,7 @@ export default defineStore('GoodsCountsMgt', {
         roomId,
         goodsId,
       });
-      this.records = data.result.list;
+      this.records = data.result;
     }
   },
 });
